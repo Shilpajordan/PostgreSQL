@@ -17,3 +17,45 @@
 - Reduce redundant data
 ## CHARACTER TYPES
 - char(5) : Stores up to a maximum number of 5 characters.
+- Varchar: stores any length of characters
+- Varchar(20): Stores up to 20 characters
+- Text: Store any length of characters
+## NUMERIC TYPES
+- Serial: Whole number that also auto increment. Always used for column ids
+    - Small serial: 1 to 32,767
+    - Serial: 1 to 2147483647
+    - Bigserial: 1 to 9223372036854775807
+- Integer: whole numbers only. always used when you don't need a decimal
+    - Smallint : -32,768 to 32, 767
+    - Integer : -2,147,583,648 to 2,174,483,647
+    - Bigint : -9223372036854775808 to 9223372036854775807
+- Floats: numbers with decimals
+    - Decimal : 131072 whole digits and 16383 after decimal
+    - Numeric : 131072 whole digits and 16383 after decimal
+    - Real : 1E-37 to 1E37 (6 places of precision)
+    - Double Precision : 1E-307 to 1E308 (15 places of precision) Used when decimal doesn’t have to be very precise
+    - Float : Same as double
+- Boolean: True, False or null
+    - True, 1, t, y, yes, on
+    - False, 0, f, n, no, off
+    - null
+- Date / Time 
+- DATE: Format YYYY-MM-DD
+    - No matter what format you enter you get this : 1974-12-21
+- TIME
+- TIME WITHOUT TIME ZONE (Default)
+    - ‘1:30:30 PM’:: TIME WITHOUT TIME ZONE -> 13:30:30
+    - 01:30 AM EST -> 01:30-5:00 (UTC Format)
+    - 01:30 PM PST -> 01:30-8:00
+    - 01:30 PM UTC -> 01:30+00:00
+    - ’01:30:30 PM EST’::TIME WITH TIME ZONE -> 13:30:30-5:00
+- TIMESTAMP
+    - ‘DEC-21-1974 1:30 PM EST’::TIMESTAMP WITH TIME ZONE -> 1974-12-21 13:30-5:00
+- INTERVAL
+    - Represents a duration of time
+    - ‘1 day’::INTERVAL -> 01:00
+    - ‘1 D 1 H 1 M 1 S’::INTERVAL -> 01:01:01:01
+    - You can add and subtract intervals
+    - You can add or subtract intervals from dates
+    - (‘DEC-21-1974 1:30 PM EST’::TIMESTAMP WITH TIME ZONE) – (‘1 D’::INTERVAL)
+- Also other data types include : Currency, Binary, JSON, Range, Geometric, Arrays, XML, UUID
