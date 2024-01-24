@@ -10,3 +10,10 @@
 - Each row contains multiple pieces of data specific to each entity you are describing.
 -  For example we store information on students here. Each individual value stored is called a cell. 
 - Primary keys are used to define unique entities in your tables. Here id provides a unique value associated with each student.
+## How to design a DB
+- 1 Table represents 1 real world Object
+- Columns store 1 piece of information
+- How do tables relate
+- Reduce redundant data
+## CHARACTER TYPES
+- char(5) : Stores up to a maximum number of 5 characters.
