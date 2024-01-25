@@ -580,3 +580,33 @@ INSERT INTO sales_item VALUES
 (24, 82, 2, 0.09, false, 0.0), 
 (30, 87, 1, 0.15, false, 0.0), 
 (22, 57, 1, 0.19, false, 0.0);
+
+-- CONDITIONAL OPERATORS
+SELECT *
+FROM sales_item
+WHERE discount > 0.15 ;
+
+-- Logical Operators
+SELECT time_order_taken, cust_id
+FROM sales_order
+WHERE time_order_taken > '2018-12-01' AND time_order_taken < '2018-12-31';
+
+-- ORDER BY
+SELECT * 
+FROM sales_item 
+WHERE discount > .15 
+ORDER BY discount;
+
+-- DESC
+-- gives results from high to low
+SELECT * 
+FROM sales_item 
+WHERE discount > .15 
+ORDER BY discount DESC;
+
+-- LIMIT
+SELECT * 
+FROM sales_item 
+WHERE discount > .15
+ORDER BY discount DESC
+LIMIT 5;

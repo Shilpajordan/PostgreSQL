@@ -59,3 +59,13 @@
     - You can add or subtract intervals from dates
     - (‘DEC-21-1974 1:30 PM EST’::TIMESTAMP WITH TIME ZONE) – (‘1 D’::INTERVAL)
 - Also other data types include : Currency, Binary, JSON, Range, Geometric, Arrays, XML, UUID
+## WHERE
+- WHERE is used to define which rows are included in the results based on a condition
+## Conditional Operators
+- = : Equal
+- < : Less than
+- '>' : Greater than
+- <= : Less than or Equal
+- '>=' : Greater than or Equal
+- <> : Not Equal
+- != : Not Equal
