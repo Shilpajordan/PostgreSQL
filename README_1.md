@@ -80,3 +80,12 @@
 ## IN 
 - The IN phrase can be used to test if a value is in a list. 
 ## Getting Data from Multiple Tables
+- INNER JOIN
+- OUTER JOINS (LEFT JOIN, RIGHT JOIN)
+- CROSS JOINS(Cross joins include data from each row in both tables)
+- UNIONS
+## Regex
+- SIMILAR is used to search for simple string matches.
+- Match any customers whose name begins with M
+- % matches for zero or more characters.
+- _ Matches any single character.

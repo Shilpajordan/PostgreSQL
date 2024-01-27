@@ -665,3 +665,59 @@ ON sales_item.sales_order_id = sales_order.id
 JOIN item
 ON item.id = sales_item.item_id
 ORDER BY sales_order.id;
+
+-- Join with Where
+SELECT item_id, price
+FROM item, sales_item
+WHERE item.id = sales_item.item_id
+AND price > 120.00
+ORDER BY item_id;
+
+-- Outer joins
+SELECT product_name, supplier, price
+FROM product 
+LEFT JOIN item
+ON item.product_id = product.id
+ORDER BY product_name;
+
+-- Cross Joins
+SELECT sales_order_id, quantity, product_id
+FROM item CROSS JOIN sales_item
+ORDER BY sales_order_id;
+
+-- Unions
+SELECT first_name, 
+	   last_name, street, city, zip_code, birth_date
+FROM customer
+WHERE EXTRACT(MONTH FROM birth_date) = 12
+UNION
+SELECT first_name, 
+	   last_name, street, city, zip, birth_date
+FROM sales_person
+WHERE EXTRACT(MONTH FROM birth_date) = 12
+ORDER BY birth_date
+
+-- NULL
+SELECT product_id, price
+FROM item
+WHERE price = NULL;
+
+--NOT NULL
+SELECT product_id, price
+FROM item
+WHERE price IS NOT NULL;
+
+-- Regex
+SELECT first_name, last_name
+FROM customer
+WHERE first_name SIMILAR TO 'M%';
+
+-- check if there is an Ashley with 5 characters
+SELECT first_name, last_name
+FROM customer
+WHERE first_name LIKE 'A_____';
+
+-- Return all customers whose 1st name begins with D, or whose last name ends with an n
+SELECT first_name, last_name
+FROM customer
+WHERE first_name SIMILAR TO 'D%' OR last_name SIMILAR TO '%n';
