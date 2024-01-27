@@ -610,3 +610,58 @@ FROM sales_item
 WHERE discount > .15
 ORDER BY discount DESC
 LIMIT 5;
+
+-- CONCAT
+SELECT CONCAT(first_name, ' ', last_name) AS Name,
+	    phone,
+		state
+FROM customer
+WHERE state = 'TX';
+
+-- Get total value of all the Business shoes in the inventory
+SELECT product_id,
+		SUM(price) AS Total
+FROM item
+WHERE product_id = 1
+GROUP BY product_id;
+
+-- DISTINCT to eliminate duplicates
+SELECT DISTINCT state 
+FROM customer
+ORDER BY state;
+
+-- Find all states where we have customers except california
+SELECT DISTINCT state 
+FROM customer
+WHERE state != 'CA'
+ORDER BY state;
+
+-- Find customer states that are in my list. You can also use NOT IN.
+SELECT DISTINCT state 
+FROM customer
+WHERE state IN ('CA', 'NJ')
+ORDER BY state;
+
+-- Inner join
+SELECT item_id, price
+FROM item
+INNER JOIN sales_item
+ON item.id = sales_item.id
+ORDER BY item_id;
+
+-- multiple join conditions with logical operators
+SELECT item_id, price
+FROM item INNER JOIN sales_item
+ON item.id = sales_item.item_id
+AND price > 120.00
+ORDER BY item_id;
+
+--Join 3 Tables
+SELECT sales_order.id, sales_item.quantity, item.price, 
+(sales_item.quantity * item.price) AS Total
+FROM sales_order
+JOIN sales_item
+ON sales_item.sales_order_id = sales_order.id
+JOIN item
+ON item.id = sales_item.item_id
+ORDER BY sales_order.id;

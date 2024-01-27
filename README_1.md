@@ -69,3 +69,14 @@
 - '>=' : Greater than or Equal
 - <> : Not Equal
 - != : Not Equal
+## DESC 
+- The following gives results from high to low
+## ASC
+- The following gives results from low to high
+## LIMIT
+- LIMIT limits the number of rows in the result
+## CONCAT
+- We can use CONCAT to merge to columns. We can then use AS to define a new column name.
+## IN 
+- The IN phrase can be used to test if a value is in a list. 
+## Getting Data from Multiple Tables
