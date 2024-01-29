@@ -721,3 +721,23 @@ WHERE first_name LIKE 'A_____';
 SELECT first_name, last_name
 FROM customer
 WHERE first_name SIMILAR TO 'D%' OR last_name SIMILAR TO '%n';
+
+--Match 1st name that starts with Ma using the match operator
+SELECT first_name, last_name
+FROM customer
+WHERE first_name ~ '^Ma';
+
+-- Match names that end with ez
+SELECT first_name, last_name
+FROM customer
+WHERE last_name ~ 'ez$';
+
+-- Match last names that end with ez or son
+SELECT first_name, last_name
+FROM customer
+WHERE last_name ~ 'ez|son';
+
+--Last names that contain w, x, y, or z
+SELECT first_name, last_name
+FROM customer
+WHERE last_name ~ '[w-z]';
