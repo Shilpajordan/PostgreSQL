@@ -89,3 +89,17 @@
 - Match any customers whose name begins with M
 - % matches for zero or more characters.
 - _ Matches any single character.
+## GROUP BY
+- defines how the results are grouped
+## COUNT
+- returns the total number of records that match
+## HAVING
+- narrows the results based on a condition
+## AGGREGATE FUNCTIONS
+- return a single value from multiple parameters
+## VIEWS
+- views are select statements thats result is stored in the database
+- When data in the database is updated so is the view.
+- You can use the view in all the same ways you can a regular table.
+- If you want it to be updatable though it can’t include DISTINCT, UNION, Aggregate Functions, GROUP BY or HAVING.
+ 

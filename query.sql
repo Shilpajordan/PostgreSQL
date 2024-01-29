@@ -741,3 +741,50 @@ WHERE last_name ~ 'ez|son';
 SELECT first_name, last_name
 FROM customer
 WHERE last_name ~ '[w-z]';
+
+-- How many customers have birthdays in certain months
+SELECT EXTRACT(MONTH FROM birth_date) AS Month, COUNT(*) AS Amount
+FROM customer
+GROUP BY Month
+ORDER BY Month;
+
+--get months if more than 1 person has a birthday that month
+SELECT EXTRACT(MONTH FROM birth_date) AS Month, COUNT(*)
+FROM customer
+GROUP BY Month
+HAVING COUNT(*) > 1
+ORDER BY Month;
+
+-- sum all our inventory
+SELECT SUM(price)
+FROM item;
+
+--Get count, sum, min, max and average value of our items
+SELECT COUNT(*) AS Items, 
+SUM(price) AS Value, 
+ROUND(AVG(price), 2) AS Avg,
+MIN(price) AS Min,
+MAX(price) AS Max
+FROM item;
+
+-- create a view that contains the main purchase order info
+CREATE VIEW purchase_order_overview AS
+SELECT sales_order.purchase_order_number, customer.company, 
+sales_item.quantity, product.supplier, product.name, item.price, 
+--Can’t use total if you want this to be updated 
+(sales_item.quantity * item.price) AS Total,
+--Remove concat if you want this to be updatable 
+CONCAT(sales_person.first_name, ' ', sales_person.last_name) AS Salesperson
+FROM sales_order     -- Join some tables
+JOIN sales_item
+ON sales_item.sales_order_id = sales_order.id    -- Tables go together by joining on sales order id
+-- Any time you join tables you need to find foreign and primary keys that match up
+JOIN item
+ON item.id = sales_item.item_id    -- Join item as well using matching item id
+JOIN customer
+ON sales_order.cust_id = customer.id    // Join customer using customer ids
+JOIN product
+ON product.id = item.product_id
+JOIN sales_person
+ON sales_person.id = sales_order.sales_person_id
+ORDER BY purchase_order_number;
