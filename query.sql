@@ -788,3 +788,145 @@ ON product.id = item.product_id
 JOIN sales_person
 ON sales_person.id = sales_order.sales_person_id
 ORDER BY purchase_order_number;
+
+-- SQL FUNCTIONS
+CREATE OR REPLACE FUNCTION fn_add_ints(int, int) 
+RETURNS int as
+'
+--$1 refers to 1st parameter and $2 the 2nd
+--The result is passed back as a string
+SELECT $1 + $2;
+'
+LANGUAGE SQL
+
+--Execute like this
+SELECT fn_add_ints(4,5);
+
+-- using $ quotes
+CREATE OR REPLACE FUNCTION fn_add_ints(int, int) 
+RETURNS int as
+$body$
+--$1 refers to 1st parameter and $2 the 2nd
+SELECT $1 + $2;
+$body$
+LANGUAGE SQL
+
+-- Functions that Return Void
+-- Check if sales_person has a state assigned and if not change it to ‘PA’
+CREATE OR REPLACE FUNCTION fn_update_employee_state() 
+RETURNS void as
+$body$
+	UPDATE sales_person
+	SET state = 'PA'
+	WHERE state is null
+$body$
+LANGUAGE SQL
+
+SELECT fn_update_employee_state();
+
+-- Get Maximum Product Price
+CREATE OR REPLACE FUNCTION fn_max_product_price() 
+RETURNS numeric as
+$body$
+	SELECT MAX(price)
+	FROM item
+$body$
+LANGUAGE SQL
+
+SELECT fn_max_product_price();
+
+-- Get Total Value of Inventory
+CREATE OR REPLACE FUNCTION fn_get_value_inventory() 
+RETURNS numeric as
+$body$
+	SELECT SUM(price)
+	FROM item;	
+$body$
+LANGUAGE SQL
+
+SELECT fn_get_value_inventory();
+
+-- Get Number of Customers
+CREATE OR REPLACE FUNCTION fn_number_customers() 
+RETURNS numeric as
+$body$
+	SELECT count(*)
+	FROM customer;	
+$body$
+LANGUAGE SQL
+
+SELECT fn_number_customers();
+
+-- Get Number of Customers with No Phone
+CREATE OR REPLACE FUNCTION fn_number_customers_no_phone() 
+RETURNS numeric as
+$body$
+	SELECT count(*)
+	FROM customer
+	WHERE phone is NULL;	
+$body$
+LANGUAGE SQL
+
+SELECT fn_number_customers_no_phone();
+
+--Named Parameters
+-- Get Number of Customers from Texas using a Named Parameter
+Get Number of Customers from Texas using a Named Parameter
+CREATE OR REPLACE FUNCTION fn_get_number_customers_from_state(state_name char(2)) 
+RETURNS numeric as
+$body$
+	SELECT count(*)
+	FROM customer
+	WHERE state = state_name;	
+$body$
+LANGUAGE SQL
+
+SELECT fn_get_number_customers_from_state('TX');
+
+--Get Number of Orders Using Customer Name
+CREATE OR REPLACE FUNCTION fn_get_number_orders_from_customer(cus_fname varchar, cus_lname varchar) 
+RETURNS numeric as
+$body$
+	SELECT COUNT(*)
+	FROM sales_order
+	NATURAL JOIN customer
+	WHERE customer.first_name = cus_fname AND customer.last_name = cus_lname;	
+$body$
+LANGUAGE SQL
+
+SELECT fn_get_number_orders_from_customer('Christopher', 'Jones');
+
+-- Return a Row / Composite for the Latest Order
+CREATE OR REPLACE FUNCTION fn_get_last_order() 
+RETURNS sales_order as
+$body$
+	SELECT *
+	FROM sales_order
+	ORDER BY time_order_taken DESC
+	LIMIT 1;
+$body$
+LANGUAGE SQL
+
+SELECT fn_get_last_order();
+
+-- RETURNING RESULTS I TABLE FORMAT
+SELECT (fn_get_last_order()).*;
+
+--Get just the date
+SELECT (fn_get_last_order()).*;
+
+-- Get Multiple Rows All Employees in CA
+CREATE OR REPLACE FUNCTION fn_get_employees_location(loc varchar) 
+RETURNS SETOF sales_person as
+$body$
+	SELECT *
+	FROM sales_person
+	WHERE state = loc;
+$body$
+LANGUAGE SQL
+
+SELECT (fn_get_employees_location('CA')).*;
+
+--Get names and phone number using function results
+SELECT first_name, last_name, phone
+FROM fn_get_employees_location('CA');

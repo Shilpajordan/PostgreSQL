@@ -102,4 +102,10 @@
 - When data in the database is updated so is the view.
 - You can use the view in all the same ways you can a regular table.
 - If you want it to be updatable though it can’t include DISTINCT, UNION, Aggregate Functions, GROUP BY or HAVING.
- 
+##  SQL Functions
+- We can write programs that are similar to traditional programming languages. 
+- There are different types of stored programs. 
+- Stored Functions can be executed by SQL statements. 
+- After creating the function they appear in the functions folder. You can see info on the function by using properties on the function.
+## Dollar Quotes
+- replace the quotes that surround your SQL so you can use quotes in your queries. $$ allows you to do this
