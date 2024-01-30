@@ -930,3 +930,97 @@ SELECT (fn_get_employees_location('CA')).*;
 --Get names and phone number using function results
 SELECT first_name, last_name, phone
 FROM fn_get_employees_location('CA');
+
+-- PL/pgSQL
+CREATE OR REPLACE FUNCTION func_name(parameter par_type) RETURNS ret_type AS
+$body$
+BEGIN
+--statements
+END
+$body$
+LANGUAGE plpqsql
+
+--Get Product Price by Name
+SELECT item.price
+FROM item
+NATURAL JOIN product
+WHERE product.name = 'Grandview';
+
+CREATE OR REPLACE FUNCTION fn_get_price_product_name(prod_name varchar) 
+RETURNS numeric AS
+$body$
+	BEGIN
+	
+	RETURN item.price
+	FROM item
+	NATURAL JOIN product
+	WHERE product.name = prod_name;
+	
+	END
+$body$
+LANGUAGE plpgsql
+
+SELECT fn_get_price_product_name('Grandview');
+
+-- Using Variables in Functions
+--Create variables in functions
+CREATE OR REPLACE FUNCTION fn_get_sum(val1 int, val2 int) 
+RETURNS int AS
+$body$
+	--Put variables here
+	DECLARE
+		ans int;
+	BEGIN
+		ans := val1 + val2;
+		RETURN ans;
+	END;
+$body$
+LANGUAGE plpgsql
+
+SELECT fn_get_sum(4,5);
+
+--Assign Variable Value with a Query
+--Get random number and assign it to a variable
+CREATE OR REPLACE FUNCTION fn_get_random_number(min_val int, max_val int) 
+RETURNS int AS
+$body$
+	--Put variables here
+	DECLARE
+		rand int;
+	BEGIN
+		SELECT random()*(max_val - min_val) + min_val INTO rand;
+		RETURN rand;
+	END;
+$body$
+LANGUAGE plpgsql
+
+SELECT fn_get_random_number(1, 5);
+
+--Store Rows in Variables & Concat
+--Get random sales person name
+CREATE OR REPLACE FUNCTION fn_get_random_salesperson() 
+RETURNS varchar AS
+$body$
+	--Put variables here
+	DECLARE
+		rand int;
+		--Use record to store row data
+		emp record;
+	BEGIN
+		--Generate random number
+		SELECT random()*(5 - 1) + 1 INTO rand;
+		
+		--Get row data for a random sales person and store in emp
+		SELECT *
+		FROM sales_person
+		INTO emp
+		WHERE id = rand;
+		
+		--Concat the first and last name and return it
+		RETURN CONCAT(emp.first_name, ' ', emp.last_name);
+		
+	END;
+$body$
+LANGUAGE plpgsql
+
+SELECT fn_get_random_salesperson();

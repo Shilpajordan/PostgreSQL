@@ -109,3 +109,5 @@
 - After creating the function they appear in the functions folder. You can see info on the function by using properties on the function.
 ## Dollar Quotes
 - replace the quotes that surround your SQL so you can use quotes in your queries. $$ allows you to do this
+## PL/pgSQL
+- PL/pgSQL is influenced by Oracle SQL. It allows for loops, conditionals, functions, data types and much more.
