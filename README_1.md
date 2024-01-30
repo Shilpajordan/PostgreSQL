@@ -113,3 +113,8 @@
 - PL/pgSQL is influenced by Oracle SQL. It allows for loops, conditionals, functions, data types and much more.
 ## IN INOUT and OUT
 - can be used to except and return multiple values without return
+## IF ELSEIF and ELSE
+## CASE Statement
+## Loop Statement
+## FOR LOOP
+- Iterates over range of values or data coming from a table.

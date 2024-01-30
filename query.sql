@@ -1095,3 +1095,107 @@ $body$
 LANGUAGE plpgsql
 
 SELECT (fn_get_10_expensive_prods()).*;
+
+-- IF ELSEIF and ELSE
+--Check order performance with IF ELSEIF and ELSE
+CREATE OR REPLACE FUNCTION fn_check_month_orders(the_month int) 
+RETURNS varchar AS
+$body$
+	--Put variables here
+	DECLARE
+		total_orders int;
+	BEGIN
+		--Check total orders
+		SELECT COUNT(purchase_order_number)
+    	INTO total_orders
+		FROM sales_order
+		WHERE EXTRACT(MONTH FROM time_order_taken) = the_month;
+		
+		--Use conditionals to provide different output
+		IF total_orders > 5 THEN
+			RETURN CONCAT(total_orders, ' Orders : Doing Good');
+		ELSEIF total_orders < 5 THEN
+			RETURN CONCAT(total_orders, ' Orders : Doing Bad');
+		ELSE
+			RETURN CONCAT(total_orders, ' Orders : On Target');
+		END IF;	
+	END;
+$body$
+LANGUAGE plpgsql
+
+SELECT fn_check_month_orders(12);
+
+--CASE Statement
+--Check order performance with IF ELSEIF and ELSE
+CREATE OR REPLACE FUNCTION fn_check_month_orders(the_month int) 
+RETURNS varchar AS
+$body$
+	--Put variables here
+	DECLARE
+		total_orders int;
+	BEGIN
+		--Check total orders
+		SELECT COUNT(purchase_order_number)
+    	INTO total_orders
+		FROM sales_order
+		WHERE EXTRACT(MONTH FROM time_order_taken) = the_month;
+		
+		-- Case executes different code depending on an exact value
+    	-- for total_orders or a range of values
+		CASE
+			WHEN total_orders < 1 THEN
+				RETURN CONCAT(total_orders, ' Orders : Terrible');
+			WHEN total_orders > 1 AND total_orders < 5 THEN
+				RETURN CONCAT(total_orders, ' Orders : Get Better');
+			WHEN total_orders = 5 THEN
+				RETURN CONCAT(total_orders, ' Orders : On Target');
+			ELSE
+				RETURN CONCAT(total_orders, ' Orders : Doing Good');
+		END CASE;	
+	END;
+$body$
+LANGUAGE plpgsql
+
+SELECT fn_check_month_orders(11);
+
+-- Loop Statement
+--Sum values up to a max number using
+CREATE OR REPLACE FUNCTION fn_loop_test(max_num int) 
+RETURNS int AS
+$body$
+	--Put variables here
+	DECLARE
+		j INT DEFAULT 1;
+		tot_sum INT DEFAULT 0;
+	BEGIN
+		LOOP
+			tot_sum := tot_sum + j;
+			j := j + 1;
+			EXIT WHEN j > max_num;
+		END LOOP;
+	RETURN tot_sum;
+END;
+$body$
+LANGUAGE plpgsql
+
+SELECT fn_loop_test(5);
+
+-- FOR LOOP
+--Sum odd values up to a max number
+CREATE OR REPLACE FUNCTION fn_for_test(max_num int) 
+RETURNS int AS
+$body$
+	--Put variables here
+	DECLARE
+		tot_sum INT DEFAULT 0;
+	BEGIN
+		FOR i IN 1 .. max_num BY 2
+		LOOP
+			tot_sum := tot_sum + i;
+		END LOOP;
+	RETURN tot_sum;
+END;
+$body$
+LANGUAGE plpgsql
+
+SELECT fn_for_test(5);
