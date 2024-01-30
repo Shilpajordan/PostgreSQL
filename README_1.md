@@ -111,3 +111,5 @@
 - replace the quotes that surround your SQL so you can use quotes in your queries. $$ allows you to do this
 ## PL/pgSQL
 - PL/pgSQL is influenced by Oracle SQL. It allows for loops, conditionals, functions, data types and much more.
+## IN INOUT and OUT
+- can be used to except and return multiple values without return

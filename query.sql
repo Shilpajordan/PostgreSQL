@@ -938,7 +938,7 @@ BEGIN
 --statements
 END
 $body$
-LANGUAGE plpqsql
+LANGUAGE plpgsql
 
 --Get Product Price by Name
 SELECT item.price
@@ -1024,3 +1024,74 @@ $body$
 LANGUAGE plpgsql
 
 SELECT fn_get_random_salesperson();
+
+--IN INOUT and OUT
+CREATE OR REPLACE FUNCTION fn_get_sum_2(IN v1 int, IN v2 int, OUT ans int) AS
+$body$
+	BEGIN
+		ans := v1 + v2;
+	END;
+$body$
+LANGUAGE plpgsql
+
+SELECT fn_get_sum_2(4,5);
+
+--Using Multiple Outs
+-- Get a customer born in given month
+CREATE OR REPLACE FUNCTION fn_get_cust_birthday(IN the_month int, OUT bd_month int, OUT bd_day int, OUT f_name varchar, OUT l_name varchar) AS
+$body$
+	BEGIN
+		SELECT EXTRACT(MONTH FROM birth_date), EXTRACT(DAY FROM birth_date), 
+		first_name, last_name 
+		INTO bd_month, bd_day, f_name, l_name
+    	FROM customer
+    	WHERE EXTRACT(MONTH FROM birth_date) = the_month
+		LIMIT 1;
+		END;
+$body$
+LANGUAGE plpgsql
+
+SELECT fn_get_cust_birthday(12);
+
+--Return Query Results
+--Return sales person data using a Query
+CREATE OR REPLACE FUNCTION fn_get_sales_people() 
+RETURNS SETOF sales_person AS
+$body$
+	BEGIN
+		RETURN QUERY
+		SELECT *
+		FROM sales_person;
+	END;
+$body$
+LANGUAGE plpgsql
+
+SELECT (fn_get_sales_people()).*;
+
+-- Return Specific Data from Query Using Multiple Tables
+--Get top 10 most expensive products
+SELECT product.name, product.supplier, item.price
+FROM item
+NATURAL JOIN product
+ORDER BY item.price DESC
+LIMIT 10;
+
+CREATE OR REPLACE FUNCTION fn_get_10_expensive_prods() 
+RETURNS TABLE (
+	name varchar,
+	supplier varchar,
+	price numeric
+) AS
+$body$
+	BEGIN
+		RETURN QUERY
+		SELECT product.name, product.supplier, item.price
+		FROM item
+		NATURAL JOIN product
+		ORDER BY item.price DESC
+		LIMIT 10;
+	END;
+$body$
+LANGUAGE plpgsql
+
+SELECT (fn_get_10_expensive_prods()).*;
